@@ -8,6 +8,181 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #020817;
+            --bg-surface: #0f172a;
+            --bg-surface-2: #111827;
+            --bg-soft: #1e293b;
+            --border: #334155;
+            --text-strong: #f8fafc;
+            --text-main: #e2e8f0;
+            --text-soft: #cbd5e1;
+            --text-muted: #94a3b8;
+            --amber-soft: #451a03;
+            --amber-text: #fbbf24;
+            --green-soft: #052e16;
+            --green-text: #86efac;
+            --red-soft: #3f0d13;
+            --red-text: #fca5a5;
+            --input-bg: #0b1220;
+        }
+
+        body {
+            background: linear-gradient(180deg, #020817 0%, #0f172a 100%) !important;
+            color: var(--text-main) !important;
+        }
+
+        .bg-white,
+        .bg-slate-50,
+        .bg-slate-100,
+        .bg-amber-50,
+        .bg-amber-100,
+        .bg-green-100,
+        .bg-red-100 {
+            background-color: var(--bg-surface) !important;
+        }
+
+        .bg-slate-200,
+        .bg-slate-700,
+        .bg-blue-600,
+        .bg-blue-700,
+        .bg-amber-600,
+        .bg-amber-700,
+        .bg-slate-800,
+        .bg-slate-900 {
+            box-shadow: none !important;
+        }
+
+        .text-slate-900,
+        .text-slate-800,
+        .text-slate-700,
+        .text-slate-600,
+        .text-slate-500,
+        .text-slate-400,
+        .text-slate-300,
+        .text-slate-200,
+        .text-slate-100 {
+            color: var(--text-main) !important;
+        }
+
+        .text-amber-900,
+        .text-amber-700,
+        .text-amber-600,
+        .text-amber-500 {
+            color: var(--amber-text) !important;
+        }
+
+        .text-green-700,
+        .text-green-600,
+        .text-green-500 {
+            color: var(--green-text) !important;
+        }
+
+        .text-red-600,
+        .text-red-500,
+        .text-red-400 {
+            color: var(--red-text) !important;
+        }
+
+        .border-slate-200,
+        .border-slate-300,
+        .border-slate-100,
+        .border-amber-300,
+        .border-amber-200 {
+            border-color: var(--border) !important;
+        }
+
+        .border-l,
+        .border-b,
+        .divide-y,
+        .divide-slate-100,
+        .border-t {
+            border-color: var(--border) !important;
+        }
+
+        .rounded-xl,
+        .rounded-lg,
+        .rounded-full,
+        .rounded-r-xl {
+            box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.12) !important;
+        }
+
+        #task-list-body tr:hover {
+            background: rgba(30, 41, 59, 0.65) !important;
+        }
+
+        input,
+        textarea,
+        select {
+            background-color: var(--input-bg) !important;
+            color: var(--text-main) !important;
+            border-color: var(--border) !important;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-muted) !important;
+        }
+
+        .bg-slate-200 {
+            background-color: #334155 !important;
+            color: var(--text-main) !important;
+        }
+
+        .bg-slate-700 {
+            background-color: #1e293b !important;
+            color: var(--text-main) !important;
+        }
+
+        .bg-blue-600,
+        .bg-blue-700 {
+            background-color: #2563eb !important;
+        }
+
+        .bg-amber-600,
+        .bg-amber-700 {
+            background-color: #b45309 !important;
+        }
+
+        .bg-amber-50 {
+            background-color: rgba(120, 53, 15, 0.26) !important;
+            border-left-color: #f59e0b !important;
+        }
+
+        .bg-green-100 {
+            background-color: rgba(16, 185, 129, 0.15) !important;
+            color: #bbf7d0 !important;
+        }
+
+        .bg-red-100 {
+            background-color: rgba(239, 68, 68, 0.15) !important;
+            color: #fecaca !important;
+        }
+
+        .bg-amber-100 {
+            background-color: rgba(245, 158, 11, 0.15) !important;
+            color: #fde68a !important;
+        }
+
+        .text-white {
+            color: white !important;
+        }
+
+        #login-modal {
+            background-color: rgba(2, 8, 23, 0.8) !important;
+        }
+
+        #login-modal > div {
+            background-color: #0f172a !important;
+            border: 1px solid var(--border) !important;
+        }
+
+        .bg-slate-100 {
+            background-color: #0f172a !important;
+        }
+    </style>
 </head>
 <body class="bg-slate-100 font-sans text-slate-800 p-4 md:p-8">
 
