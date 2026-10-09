@@ -584,7 +584,7 @@
       const selectedMonth = document.getElementById('filter-month').value;
       const selectedYear = document.getElementById('filter-year').value;
 
-      return tasks.filter(task => {
+      let filtered = tasks.filter(task => {
         if (!task.datetime) return true;
 
         const taskDate = new Date(task.datetime);
@@ -596,6 +596,15 @@
 
         return matchesMonth && matchesYear;
       });
+
+      // Sort by datetime (newest first)
+      filtered.sort((a, b) => {
+        const dateA = a.datetime ? new Date(a.datetime) : new Date(0);
+        const dateB = b.datetime ? new Date(b.datetime) : new Date(0);
+        return dateB - dateA; // Descending order (newest first)
+      });
+
+      return filtered;
     }
 
     function saveAndRender() {
