@@ -597,11 +597,11 @@
         return matchesMonth && matchesYear;
       });
 
-      // Sort by datetime (newest first)
+      // Sort by datetime (oldest first / ascending order)
       filtered.sort((a, b) => {
         const dateA = a.datetime ? new Date(a.datetime) : new Date(0);
         const dateB = b.datetime ? new Date(b.datetime) : new Date(0);
-        return dateB - dateA; // Descending order (newest first)
+        return dateA - dateB; // Ascending order (paling lama di atas, paling baru di bawah)
       });
 
       return filtered;
