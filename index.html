@@ -1,720 +1,662 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Tugasan Juruteknik</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Tugasan Juruteknik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #020817;
+      --panel: #0f172a;
+      --panel-2: #111827;
+      --soft: #1e293b;
+      --line: #334155;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --white: #f8fafc;
+      --amber-soft: #451a03;
+      --amber-text: #fbbf24;
+      --green-soft: #052e16;
+      --green-text: #86efac;
+      --red-soft: #3f0d13;
+      --red-text: #fca5a5;
+      --dark-input: #0b1220;
+    }
 
-    <style>
-        :root {
-            --bg-primary: #020817;
-            --bg-surface: #0f172a;
-            --bg-surface-2: #111827;
-            --bg-soft: #1e293b;
-            --border: #334155;
-            --text-strong: #f8fafc;
-            --text-main: #e2e8f0;
-            --text-soft: #cbd5e1;
-            --text-muted: #94a3b8;
-            --amber-soft: #451a03;
-            --amber-text: #fbbf24;
-            --green-soft: #052e16;
-            --green-text: #86efac;
-            --red-soft: #3f0d13;
-            --red-text: #fca5a5;
-            --input-bg: #0b1220;
-        }
+    body {
+      background: linear-gradient(180deg, var(--bg), var(--panel));
+      color: var(--text);
+    }
 
-        body {
-            background: linear-gradient(180deg, #020817 0%, #0f172a 100%) !important;
-            color: var(--text-main) !important;
-        }
+    .dark-surface {
+      background-color: var(--panel) !important;
+      color: var(--text) !important;
+      border-color: var(--line) !important;
+    }
 
-        .bg-white,
-        .bg-slate-50,
-        .bg-slate-100,
-        .bg-amber-50,
-        .bg-amber-100,
-        .bg-green-100,
-        .bg-red-100 {
-            background-color: var(--bg-surface) !important;
-        }
+    .soft-panel {
+      background-color: rgba(15, 23, 42, 0.96) !important;
+      color: var(--text) !important;
+      border-color: var(--line) !important;
+    }
 
-        .bg-slate-200,
-        .bg-slate-700,
-        .bg-blue-600,
-        .bg-blue-700,
-        .bg-amber-600,
-        .bg-amber-700,
-        .bg-slate-800,
-        .bg-slate-900 {
-            box-shadow: none !important;
-        }
+    .muted-text { color: var(--muted) !important; }
+    .strong-text { color: var(--white) !important; }
 
-        .text-slate-900,
-        .text-slate-800,
-        .text-slate-700,
-        .text-slate-600,
-        .text-slate-500,
-        .text-slate-400,
-        .text-slate-300,
-        .text-slate-200,
-        .text-slate-100 {
-            color: var(--text-main) !important;
-        }
+    input, textarea, select {
+      background-color: var(--dark-input) !important;
+      color: var(--text) !important;
+      border-color: var(--line) !important;
+    }
 
-        .text-amber-900,
-        .text-amber-700,
-        .text-amber-600,
-        .text-amber-500 {
-            color: var(--amber-text) !important;
-        }
+    input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 
-        .text-green-700,
-        .text-green-600,
-        .text-green-500 {
-            color: var(--green-text) !important;
-        }
+    .chip {
+      border-radius: 9999px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
 
-        .text-red-600,
-        .text-red-500,
-        .text-red-400 {
-            color: var(--red-text) !important;
-        }
+    .status-done {
+      background: rgba(16, 185, 129, 0.15);
+      color: #bbf7d0;
+    }
 
-        .border-slate-200,
-        .border-slate-300,
-        .border-slate-100,
-        .border-amber-300,
-        .border-amber-200 {
-            border-color: var(--border) !important;
-        }
-
-        .border-l,
-        .border-b,
-        .divide-y,
-        .divide-slate-100,
-        .border-t {
-            border-color: var(--border) !important;
-        }
-
-        .rounded-xl,
-        .rounded-lg,
-        .rounded-full,
-        .rounded-r-xl {
-            box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.12) !important;
-        }
-
-        #task-list-body tr:hover {
-            background: rgba(30, 41, 59, 0.65) !important;
-        }
-
-        input,
-        textarea,
-        select {
-            background-color: var(--input-bg) !important;
-            color: var(--text-main) !important;
-            border-color: var(--border) !important;
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: var(--text-muted) !important;
-        }
-
-        .bg-slate-200 {
-            background-color: #334155 !important;
-            color: var(--text-main) !important;
-        }
-
-        .bg-slate-700 {
-            background-color: #1e293b !important;
-            color: var(--text-main) !important;
-        }
-
-        .bg-blue-600,
-        .bg-blue-700 {
-            background-color: #2563eb !important;
-        }
-
-        .bg-amber-600,
-        .bg-amber-700 {
-            background-color: #b45309 !important;
-        }
-
-        .bg-amber-50 {
-            background-color: rgba(120, 53, 15, 0.26) !important;
-            border-left-color: #f59e0b !important;
-        }
-
-        .bg-green-100 {
-            background-color: rgba(16, 185, 129, 0.15) !important;
-            color: #bbf7d0 !important;
-        }
-
-        .bg-red-100 {
-            background-color: rgba(239, 68, 68, 0.15) !important;
-            color: #fecaca !important;
-        }
-
-        .bg-amber-100 {
-            background-color: rgba(245, 158, 11, 0.15) !important;
-            color: #fde68a !important;
-        }
-
-        .text-white {
-            color: white !important;
-        }
-
-        #login-modal {
-            background-color: rgba(2, 8, 23, 0.8) !important;
-        }
-
-        #login-modal > div {
-            background-color: #0f172a !important;
-            border: 1px solid var(--border) !important;
-        }
-
-        .bg-slate-100 {
-            background-color: #0f172a !important;
-        }
-    </style>
+    .status-progress {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fde68a;
+    }
+  </style>
 </head>
-<body class="bg-slate-100 font-sans text-slate-800 p-4 md:p-8">
+<body class="font-sans p-4 md:p-8">
+  <div class="max-w-7xl mx-auto space-y-6">
+    <header class="soft-panel p-6 rounded-xl border shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div>
+        <h1 id="dashboard-title" class="text-2xl font-bold strong-text">Dashboard Tugasan Juruteknik</h1>
+        <p id="dashboard-subtitle" class="text-sm muted-text">Pengurusan jadual, lokasi, dan analisis tugasan juruteknik</p>
+      </div>
 
-    <div class="max-w-7xl mx-auto space-y-6">
-        
-        <!-- Header & Status Admin -->
-        <header class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-                <h1 class="text-2xl font-bold text-slate-900">Dashboard Tugasan Juruteknik</h1>
-                <p class="text-sm text-slate-500">Pengurusan jadual, lokasi, dan analisis tugasan juruteknik</p>
-            </div>
-            
-            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                <div id="current-date" class="text-sm font-semibold bg-slate-100 px-4 py-2 rounded-lg text-slate-700"></div>
-                
-                <!-- Lencana & Butang Log Masuk Admin -->
-                <div class="flex items-center gap-2 border-l pl-3 border-slate-200">
-                    <span id="admin-badge" class="text-xs px-2.5 py-1 rounded-full font-semibold bg-slate-200 text-slate-700">
-                        🔒 Mod: Pelawat (Lihat Sahaja)
-                    </span>
-                    <button id="admin-btn" onclick="openLoginModal()" class="text-xs px-3 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition">
-                        🔑 Log Masuk Admin
-                    </button>
-                </div>
-            </div>
-        </header>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+        <div id="current-date" class="text-sm font-semibold bg-slate-800 px-4 py-2 rounded-lg text-slate-200"></div>
 
-        <!-- Papan Arahan Am / SOP -->
-        <section class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-xl shadow-sm">
-            <h2 class="text-lg font-bold text-amber-900 mb-2">📢 Papan Arahan & Nota Penyelia</h2>
-            <div class="flex gap-2">
-                <textarea id="general-instruction" rows="2" 
-                    class="w-full p-3 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 text-sm bg-white" 
-                    placeholder="Masukkan arahan umum hari ini..."></textarea>
-                <button id="save-instruction-btn" onclick="saveGeneralInstruction()" 
-                    class="bg-amber-600 hover:bg-amber-700 text-white font-medium px-4 py-2 rounded-lg text-sm transition hidden">
-                    Simpan
-                </button>
-            </div>
+        <div class="flex items-center gap-2 border-l pl-3 border-slate-700">
+          <span id="admin-badge" class="chip bg-slate-200 text-slate-700">🔒 Mod: Pelawat (Lihat Sahaja)</span>
+          <button id="admin-btn" onclick="openLoginModal()" class="text-xs px-3 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition">🔑 Log Masuk Admin</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-xl shadow-sm text-slate-900">
+      <h2 class="text-lg font-bold mb-2">📢 Papan Arahan & Nota Penyelia</h2>
+      <div class="flex gap-2">
+        <textarea id="general-instruction" rows="2" class="w-full p-3 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-white" placeholder="Masukkan arahan umum hari ini..."></textarea>
+        <button id="save-instruction-btn" onclick="saveGeneralInstruction()" class="bg-amber-600 hover:bg-amber-700 text-white font-medium px-4 py-2 rounded-lg text-sm transition hidden">Simpan</button>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <section id="form-section" class="soft-panel p-6 rounded-xl border shadow-sm lg:col-span-1 space-y-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-bold strong-text">➕ Agih Tugasan Baharu</h2>
+          <span id="form-lock-notice" class="text-xs text-amber-600 font-semibold bg-amber-50 px-2 py-1 rounded">Dikehendaki Mod Admin</span>
+        </div>
+
+        <form id="task-form" onsubmit="addTask(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">Pilih Juruteknik</label>
+            <select id="tech-name" required class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="" disabled selected>-- Pilih Juruteknik --</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">Tugasan</label>
+            <input type="text" id="tech-task" required placeholder="Contoh: Penyelenggaraan Server" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">Lokasi</label>
+            <input type="text" id="tech-location" required placeholder="Contoh: Bilik Server 2, Blok A" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">Tarikh & Masa Bertugas</label>
+            <input type="datetime-local" id="tech-datetime" required class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">Arahan Khusus</label>
+            <textarea id="tech-instructions" rows="3" placeholder="Sila periksa kabel bekalan kuasa..." class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+          </div>
+
+          <button type="submit" id="submit-task-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg text-sm transition">Tugaskan Juruteknik</button>
+        </form>
+      </section>
+
+      <div class="lg:col-span-2 space-y-6">
+        <section class="soft-panel p-4 rounded-xl border shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold strong-text">🔍 Penapis Paparan:</span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <select id="filter-month" onchange="renderTasks(); updateChart();" class="p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="all">Semua Bulan</option>
+              <option value="1">Januari</option>
+              <option value="2">Februari</option>
+              <option value="3">Mac</option>
+              <option value="4">April</option>
+              <option value="5">Mei</option>
+              <option value="6">Jun</option>
+              <option value="7">Julai</option>
+              <option value="8">Ogos</option>
+              <option value="9">September</option>
+              <option value="10">Oktober</option>
+              <option value="11">November</option>
+              <option value="12">Disember</option>
+            </select>
+
+            <select id="filter-year" onchange="renderTasks(); updateChart();" class="p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="all">Semua Tahun</option>
+            </select>
+          </div>
         </section>
 
-        <!-- Layout Utama: Borang + (Penapis + Graf + Jadual) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <!-- Bahagian Kiri: Borang Agihan Tugasan (Dikunci jika bukan Admin) -->
-            <section id="form-section" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 lg:col-span-1 space-y-4">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold text-slate-900">➕ Agih Tugasan Baharu</h2>
-                    <span id="form-lock-notice" class="text-xs text-amber-600 font-semibold bg-amber-50 px-2 py-1 rounded">Dikehendaki Mod Admin</span>
-                </div>
-                
-                <form id="task-form" onsubmit="addTask(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Pilih Juruteknik</label>
-                        <select id="tech-name" required class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
-                            <option value="" disabled selected>-- Pilih Juruteknik --</option>
-                            <option value="JTK R1 - SHAMSUL">JTK R1 - SHAMSUL</option>
-                            <option value="JTK R2 - AZHAR">JTK R2 - AZHAR</option>
-                            <option value="JTK O1 - IRMA">JTK O1 - IRMA</option>
-                            <option value="JTK O2 - HAMBALI">JTK O2 - HAMBALI</option>
-                            <option value="JTK K1 - ZAMER">JTK K1 - ZAMER</option>
-                        </select>
-                    </div>
+        <section class="soft-panel p-6 rounded-xl border shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold strong-text">📊 Bilangan Tugasan Mengikut Juruteknik</h2>
+            <button id="settings-btn" onclick="openSettingsModal()" class="hidden text-xs px-3 py-2 rounded-lg bg-slate-700 text-white hover:bg-slate-800 transition">⚙ Tetapan</button>
+          </div>
+          <div class="relative h-64 w-full">
+            <canvas id="techChart"></canvas>
+          </div>
+        </section>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tugasan</label>
-                        <input type="text" id="tech-task" required placeholder="Contoh: Penyelenggaraan Server" 
-                            class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Lokasi</label>
-                        <input type="text" id="tech-location" required placeholder="Contoh: Bilik Server 2, Blok A" 
-                            class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tarikh & Masa Bertugas</label>
-                        <input type="datetime-local" id="tech-datetime" required 
-                            class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Arahan Khusus</label>
-                        <textarea id="tech-instructions" rows="3" placeholder="Sila periksa kabel bekalan kuasa..." 
-                            class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
-                    </div>
-
-                    <button type="submit" id="submit-task-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg text-sm transition">
-                        Tugaskan Juruteknik
-                    </button>
-                </form>
-            </section>
-
-            <!-- Bahagian Kanan: Penapis, Graf & Jadual -->
-            <div class="lg:col-span-2 space-y-6">
-                
-                <!-- Section Penapis (Filter Tahun & Bulan) -->
-                <section class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div class="flex items-center gap-2">
-                        <span class="text-sm font-bold text-slate-800">🔍 Penapis Paparan:</span>
-                    </div>
-
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div>
-                            <select id="filter-month" onchange="renderTasks(); updateChart();" class="p-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
-                                <option value="all">Semua Bulan</option>
-                                <option value="1">Januari</option>
-                                <option value="2">Februari</option>
-                                <option value="3">Mac</option>
-                                <option value="4">April</option>
-                                <option value="5">Mei</option>
-                                <option value="6">Jun</option>
-                                <option value="7">Julai</option>
-                                <option value="8">Ogos</option>
-                                <option value="9">September</option>
-                                <option value="10">Oktober</option>
-                                <option value="11">November</option>
-                                <option value="12">Disember</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <select id="filter-year" onchange="renderTasks(); updateChart();" class="p-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
-                                <option value="all">Semua Tahun</option>
-                            </select>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section Graf Statistik -->
-                <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h2 class="text-lg font-bold text-slate-900 mb-4">📊 Bilangan Tugasan Mengikut Juruteknik</h2>
-                    <div class="relative h-64 w-full">
-                        <canvas id="techChart"></canvas>
-                    </div>
-                </section>
-
-                <!-- Section Jadual Tugasan -->
-                <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-bold text-slate-900">📋 Senarai Tugasan</h2>
-                        <div class="flex items-center gap-3">
-                            <span id="task-count" class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-full">0 Tugasan</span>
-                            <button id="clear-data-btn" onclick="resetAllData()" class="text-xs text-red-500 hover:underline hidden">Clear Data</button>
-                        </div>
-                    </div>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase">
-                                    <th class="py-3 px-2">Juruteknik</th>
-                                    <th class="py-3 px-2">Tugasan & Arahan</th>
-                                    <th class="py-3 px-2">Lokasi</th>
-                                    <th class="py-3 px-2">Tarikh & Masa</th>
-                                    <th class="py-3 px-2">Status</th>
-                                    <th id="action-col-header" class="py-3 px-2 text-right">Tindakan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="task-list-body" class="divide-y divide-slate-100 text-sm">
-                                <!-- Data dimasukkan secara dinamik -->
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
+        <section class="soft-panel p-6 rounded-xl border shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold strong-text">📋 Senarai Tugasan</h2>
+            <div class="flex items-center gap-3">
+              <span id="task-count" class="text-xs bg-slate-800 text-slate-200 font-semibold px-2.5 py-1 rounded-full">0 Tugasan</span>
+              <button id="clear-data-btn" onclick="resetAllData()" class="text-xs text-red-500 hover:underline hidden">Clear Data</button>
             </div>
+          </div>
 
-        </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-700 text-xs font-semibold uppercase text-slate-400">
+                  <th class="py-3 px-2">Juruteknik</th>
+                  <th class="py-3 px-2">Tugasan & Arahan</th>
+                  <th class="py-3 px-2">Lokasi</th>
+                  <th class="py-3 px-2">Tarikh & Masa</th>
+                  <th class="py-3 px-2">Status</th>
+                  <th id="action-col-header" class="py-3 px-2 text-right hidden">Tindakan</th>
+                </tr>
+              </thead>
+              <tbody id="task-list-body" class="divide-y divide-slate-800 text-sm"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
     </div>
+  </div>
 
-    <!-- Modal Log Masuk Admin -->
-    <div id="login-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
-        <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-lg font-bold text-slate-900">🔑 Log Masuk Admin</h3>
-                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xl leading-none">&times;</button>
-            </div>
-            <p class="text-sm text-slate-600">Sila masukkan PIN keselamatan untuk mengaktifkan mod suntingan.</p>
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">PIN Admin</label>
-                <input type="password" id="modal-pin-input" placeholder="Masukkan PIN Admin" 
-                    class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    onkeypress="if(event.key === 'Enter') submitLogin()">
-                <p id="modal-error-msg" class="text-xs text-red-500 mt-1 hidden">PIN salah. Sila cuba lagi.</p>
-            </div>
-            <div class="flex justify-end gap-2 pt-2">
-                <button onclick="closeLoginModal()" class="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition">Batal</button>
-                <button onclick="submitLogin()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition">Log Masuk</button>
-            </div>
-        </div>
+  <div id="login-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+        <h3 class="text-lg font-bold strong-text">🔑 Log Masuk Admin</h3>
+        <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-200 font-bold text-xl leading-none">&times;</button>
+      </div>
+      <p class="text-sm text-slate-400">Sila masukkan PIN keselamatan untuk mengaktifkan mod suntingan.</p>
+      <div>
+        <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">PIN Admin</label>
+        <input type="password" id="modal-pin-input" placeholder="Masukkan PIN Admin" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" onkeypress="if(event.key === 'Enter') submitLogin()" />
+        <p id="modal-error-msg" class="text-xs text-red-500 mt-1 hidden">PIN salah. Sila cuba lagi.</p>
+      </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeLoginModal()" class="px-4 py-2 text-sm font-medium text-slate-200 bg-slate-800 hover:bg-slate-700 rounded-lg transition">Batal</button>
+        <button onclick="submitLogin()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition">Log Masuk</button>
+      </div>
     </div>
+  </div>
 
-    <!-- JavaScript Logik -->
-    <script>
-        const ADMIN_PIN = "bpmadmin";
+  <div id="settings-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-xl shadow-xl max-w-lg w-full p-6 space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+        <h3 class="text-lg font-bold strong-text">⚙ Tetapan Dashboard</h3>
+        <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-slate-200 font-bold text-xl leading-none">&times;</button>
+      </div>
 
-        const technicianList = [
-            "JTK R1 - SHAMSUL",
-            "JTK R2 - AZHAR",
-            "JTK O1 - IRMA",
-            "JTK O2 - HAMBALI",
-            "JTK K1 - ZAMER"
-        ];
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">Tajuk Dashboard</label>
+          <input id="settings-title" type="text" class="w-full p-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">Sub Tajuk</label>
+          <input id="settings-subtitle" type="text" class="w-full p-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">PIN Admin</label>
+          <input id="settings-pin" type="text" class="w-full p-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase mb-1 text-slate-400">Senarai Juruteknik</label>
+          <textarea id="settings-tech-list" rows="5" class="w-full p-2.5 border rounded-lg"></textarea>
+        </div>
+      </div>
 
-        let tasks = JSON.parse(localStorage.getItem('technician_tasks')) || [];
-        let techChartInstance = null;
-        let isAdmin = sessionStorage.getItem('is_admin') === 'true';
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeSettingsModal()" class="px-4 py-2 text-sm font-medium text-slate-200 bg-slate-800 hover:bg-slate-700 rounded-lg transition">Batal</button>
+        <button onclick="saveSettings()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition">Simpan Tetapan</button>
+      </div>
+    </div>
+  </div>
 
-        // Papar tarikh semasa di header
-        document.getElementById('current-date').innerText = new Date().toLocaleDateString('ms-MY', {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-        });
+  <script>
+    const DEFAULT_SETTINGS = {
+      title: 'Dashboard Tugasan Juruteknik',
+      subtitle: 'Pengurusan jadual, lokasi, dan analisis tugasan juruteknik',
+      pin: 'bpmadmin',
+      technicianList: [
+        'JTK R1 - SHAMSUL',
+        'JTK R2 - AZHAR',
+        'JTK O1 - IRMA',
+        'JTK O2 - HAMBALI',
+        'JTK K1 - ZAMER'
+      ]
+    };
 
-        document.getElementById('general-instruction').value = localStorage.getItem('general_instruction') || '';
+    let settings = JSON.parse(localStorage.getItem('dashboard_jtk_settings')) || DEFAULT_SETTINGS;
+    let tasks = JSON.parse(localStorage.getItem('technician_tasks')) || [];
+    let techChartInstance = null;
+    let isAdmin = sessionStorage.getItem('is_admin') === 'true';
 
-        // Pengendalian Modal Log Masuk
-        function openLoginModal() {
-            document.getElementById('modal-pin-input').value = '';
-            document.getElementById('modal-error-msg').classList.add('hidden');
-            document.getElementById('login-modal').classList.remove('hidden');
-            document.getElementById('modal-pin-input').focus();
-        }
+    function normalizeSettings() {
+      const merged = {...DEFAULT_SETTINGS, ...(settings || {})};
+      if (!Array.isArray(merged.technicianList) || !merged.technicianList.length) {
+        merged.technicianList = DEFAULT_SETTINGS.technicianList;
+      }
+      settings = merged;
+      localStorage.setItem('dashboard_jtk_settings', JSON.stringify(settings));
+    }
 
-        function closeLoginModal() {
-            document.getElementById('login-modal').classList.add('hidden');
-        }
+    function populateTechnicianSelect() {
+      const techSelect = document.getElementById('tech-name');
+      techSelect.innerHTML = '<option value="" disabled selected>-- Pilih Juruteknik --</option>';
+      settings.technicianList.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        techSelect.appendChild(option);
+      });
+    }
 
-        function submitLogin() {
-            const inputPin = document.getElementById('modal-pin-input').value;
-            if (inputPin === ADMIN_PIN) {
-                isAdmin = true;
-                sessionStorage.setItem('is_admin', 'true');
-                closeLoginModal();
-                applyAdminPermissions();
-            } else {
-                document.getElementById('modal-error-msg').classList.remove('hidden');
-            }
-        }
+    function renderDashboardMeta() {
+      document.getElementById('dashboard-title').textContent = settings.title;
+      document.getElementById('dashboard-subtitle').textContent = settings.subtitle;
+      document.title = settings.title;
+      populateTechnicianSelect();
+    }
 
-        function logoutAdmin() {
-            isAdmin = false;
-            sessionStorage.setItem('is_admin', 'false');
-            applyAdminPermissions();
-        }
+    document.getElementById('current-date').innerText = new Date().toLocaleDateString('ms-MY', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
 
-        // Terapkan Kebenaran Akses Admin pada UI
-        function applyAdminPermissions() {
-            const adminBadge = document.getElementById('admin-badge');
-            const adminBtn = document.getElementById('admin-btn');
-            const saveInstructionBtn = document.getElementById('save-instruction-btn');
-            const generalInstruction = document.getElementById('general-instruction');
-            const formNotice = document.getElementById('form-lock-notice');
-            const submitBtn = document.getElementById('submit-task-btn');
-            const clearDataBtn = document.getElementById('clear-data-btn');
-            const actionColHeader = document.getElementById('action-col-header');
+    document.getElementById('general-instruction').value = localStorage.getItem('general_instruction') || '';
 
-            const formInputs = document.querySelectorAll('#task-form input, #task-form select, #task-form textarea');
+    function openLoginModal() {
+      document.getElementById('modal-pin-input').value = '';
+      document.getElementById('modal-error-msg').classList.add('hidden');
+      document.getElementById('login-modal').classList.remove('hidden');
+      document.getElementById('modal-pin-input').focus();
+    }
 
-            if (isAdmin) {
-                adminBadge.innerText = '🔓 Mod: Admin (Boleh Edit)';
-                adminBadge.className = 'text-xs px-2.5 py-1 rounded-full font-semibold bg-green-100 text-green-700';
-                
-                adminBtn.innerText = '🚪 Log Keluar Admin';
-                adminBtn.onclick = logoutAdmin;
-                adminBtn.className = 'text-xs px-3 py-2 rounded-lg font-medium bg-slate-700 text-white hover:bg-slate-800 transition';
-                
-                saveInstructionBtn.classList.remove('hidden');
-                generalInstruction.removeAttribute('readonly');
+    function closeLoginModal() {
+      document.getElementById('login-modal').classList.add('hidden');
+    }
 
-                formNotice.classList.add('hidden');
-                submitBtn.removeAttribute('disabled');
-                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-
-                clearDataBtn.classList.remove('hidden');
-                actionColHeader.classList.remove('hidden');
-
-                formInputs.forEach(input => input.removeAttribute('disabled'));
-            } else {
-                adminBadge.innerText = '🔒 Mod: Pelawat (Lihat Sahaja)';
-                adminBadge.className = 'text-xs px-2.5 py-1 rounded-full font-semibold bg-slate-200 text-slate-700';
-                
-                adminBtn.innerText = '🔑 Log Masuk Admin';
-                adminBtn.onclick = openLoginModal;
-                adminBtn.className = 'text-xs px-3 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition';
-
-                saveInstructionBtn.classList.add('hidden');
-                generalInstruction.setAttribute('readonly', 'true');
-
-                formNotice.classList.remove('hidden');
-                submitBtn.setAttribute('disabled', 'true');
-                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-
-                clearDataBtn.classList.add('hidden');
-                actionColHeader.classList.add('hidden');
-
-                formInputs.forEach(input => input.setAttribute('disabled', 'true'));
-            }
-
-            renderTasks();
-            updateChart();
-        }
-
-        function saveGeneralInstruction() {
-            if (!isAdmin) return;
-            const val = document.getElementById('general-instruction').value;
-            localStorage.setItem('general_instruction', val);
-            alert('Arahan penyelia berjaya disimpan!');
-        }
-
-        function addTask(e) {
-            e.preventDefault();
-            if (!isAdmin) return;
-            
-            const newTask = {
-                id: Date.now(),
-                name: document.getElementById('tech-name').value,
-                task: document.getElementById('tech-task').value,
-                location: document.getElementById('tech-location').value,
-                datetime: document.getElementById('tech-datetime').value,
-                instructions: document.getElementById('tech-instructions').value,
-                completed: false
-            };
-
-            tasks.push(newTask);
-            saveAndRender();
-            document.getElementById('task-form').reset();
-        }
-
-        function formatDateTime(datetimeStr) {
-            if (!datetimeStr) return '-';
-            const dateObj = new Date(datetimeStr);
-            return dateObj.toLocaleString('ms-MY', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true
-            });
-        }
-
-        function toggleTaskStatus(id) {
-            if (!isAdmin) return;
-            tasks = tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
-            saveAndRender();
-        }
-
-        function deleteTask(id) {
-            if (!isAdmin) return;
-            if (confirm('Adakah anda yakin ingin memadam tugasan ini?')) {
-                tasks = tasks.filter(t => t.id !== id);
-                saveAndRender();
-            }
-        }
-
-        function resetAllData() {
-            if (!isAdmin) return;
-            if (confirm('Adakah anda yakin mahu memadam semua data dan menetapkan semula dashboard?')) {
-                localStorage.removeItem('technician_tasks');
-                tasks = [];
-                saveAndRender();
-            }
-        }
-
-        function populateYearFilter() {
-            const yearSelect = document.getElementById('filter-year');
-            const selectedVal = yearSelect.value || 'all';
-
-            const yearsSet = new Set();
-            const currentYear = new Date().getFullYear();
-            yearsSet.add(currentYear);
-
-            tasks.forEach(t => {
-                if (t.datetime) {
-                    const y = new Date(t.datetime).getFullYear();
-                    if (!isNaN(y)) yearsSet.add(y);
-                }
-            });
-
-            const sortedYears = Array.from(yearsSet).sort((a, b) => b - a);
-
-            yearSelect.innerHTML = '<option value="all">Semua Tahun</option>';
-            sortedYears.forEach(y => {
-                const option = document.createElement('option');
-                option.value = y.toString();
-                option.textContent = y.toString();
-                yearSelect.appendChild(option);
-            });
-
-            yearSelect.value = selectedVal;
-        }
-
-        function getFilteredTasks() {
-            const selectedMonth = document.getElementById('filter-month').value;
-            const selectedYear = document.getElementById('filter-year').value;
-
-            return tasks.filter(task => {
-                if (!task.datetime) return true;
-
-                const taskDate = new Date(task.datetime);
-                const taskMonth = (taskDate.getMonth() + 1).toString();
-                const taskYear = taskDate.getFullYear().toString();
-
-                const matchesMonth = (selectedMonth === 'all') || (taskMonth === selectedMonth);
-                const matchesYear = (selectedYear === 'all') || (taskYear === selectedYear);
-
-                return matchesMonth && matchesYear;
-            });
-        }
-
-        function saveAndRender() {
-            localStorage.setItem('technician_tasks', JSON.stringify(tasks));
-            populateYearFilter();
-            renderTasks();
-            updateChart();
-        }
-
-        function renderTasks() {
-            const tbody = document.getElementById('task-list-body');
-            const countLabel = document.getElementById('task-count');
-            const filteredTasks = getFilteredTasks();
-            
-            tbody.innerHTML = '';
-            countLabel.innerText = `${filteredTasks.length} Tugasan`;
-
-            const colSpanCount = isAdmin ? 6 : 5;
-
-            if (filteredTasks.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="${colSpanCount}" class="py-8 text-center text-slate-400">
-                            Tiada tugasan ditemui.
-                        </td>
-                    </tr>`;
-                return;
-            }
-
-            filteredTasks.forEach(t => {
-                const row = document.createElement('tr');
-                row.className = t.completed ? 'opacity-50 bg-slate-50' : 'hover:bg-slate-50';
-
-                let actionTd = '';
-                if (isAdmin) {
-                    actionTd = `
-                        <td class="py-3 px-2 text-right space-x-1">
-                            <button onclick="toggleTaskStatus(${t.id})" class="text-xs px-2 py-1 rounded bg-slate-200 hover:bg-slate-300 transition">
-                                ${t.completed ? 'Batal' : 'Selesai'}
-                            </button>
-                            <button onclick="deleteTask(${t.id})" class="text-xs px-2 py-1 rounded bg-red-100 text-red-600 hover:bg-red-200 transition">
-                                Padam
-                            </button>
-                        </td>
-                    `;
-                }
-
-                row.innerHTML = `
-                    <td class="py-3 px-2 font-semibold text-slate-900">${t.name}</td>
-                    <td class="py-3 px-2">
-                        <div class="font-medium ${t.completed ? 'line-through text-slate-500' : 'text-slate-800'}">${t.task}</div>
-                        <div class="text-xs text-slate-500 mt-0.5">${t.instructions ? '💬 ' + t.instructions : '-'}</div>
-                    </td>
-                    <td class="py-3 px-2 text-slate-700 font-medium">${t.location || '-'}</td>
-                    <td class="py-3 px-2 text-xs text-slate-600">${formatDateTime(t.datetime)}</td>
-                    <td class="py-3 px-2">
-                        <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${t.completed ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}">
-                            ${t.completed ? 'Selesai' : 'Dalam Tindakan'}
-                        </span>
-                    </td>
-                    ${actionTd}
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function updateChart() {
-            if (typeof Chart === 'undefined') return;
-
-            const ctx = document.getElementById('techChart').getContext('2d');
-            const filteredTasks = getFilteredTasks();
-
-            const taskCounts = technicianList.map(techName => 
-                filteredTasks.filter(task => task.name === techName).length
-            );
-
-            if (techChartInstance) {
-                techChartInstance.destroy();
-            }
-
-            techChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: technicianList,
-                    datasets: [{
-                        label: 'Jumlah Tugasan',
-                        data: taskCounts,
-                        backgroundColor: [
-                            'rgba(59, 130, 246, 0.7)',
-                            'rgba(16, 185, 129, 0.7)',
-                            'rgba(245, 158, 11, 0.7)',
-                            'rgba(139, 92, 246, 0.7)',
-                            'rgba(236, 72, 153, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgb(59, 130, 246)',
-                            'rgb(16, 185, 129)',
-                            'rgb(245, 158, 11)',
-                            'rgb(139, 92, 246)',
-                            'rgb(236, 72, 153)'
-                        ],
-                        borderWidth: 1,
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 1 }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Mula Paparan Awal
-        populateYearFilter();
+    function submitLogin() {
+      const inputPin = document.getElementById('modal-pin-input').value;
+      if (inputPin === settings.pin) {
+        isAdmin = true;
+        sessionStorage.setItem('is_admin', 'true');
+        closeLoginModal();
         applyAdminPermissions();
-    </script>
+      } else {
+        document.getElementById('modal-error-msg').classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      isAdmin = false;
+      sessionStorage.setItem('is_admin', 'false');
+      applyAdminPermissions();
+    }
+
+    function applyAdminPermissions() {
+      const adminBadge = document.getElementById('admin-badge');
+      const adminBtn = document.getElementById('admin-btn');
+      const saveInstructionBtn = document.getElementById('save-instruction-btn');
+      const generalInstruction = document.getElementById('general-instruction');
+      const formNotice = document.getElementById('form-lock-notice');
+      const submitBtn = document.getElementById('submit-task-btn');
+      const clearDataBtn = document.getElementById('clear-data-btn');
+      const settingsBtn = document.getElementById('settings-btn');
+      const actionColHeader = document.getElementById('action-col-header');
+      const formInputs = document.querySelectorAll('#task-form input, #task-form select, #task-form textarea');
+
+      if (isAdmin) {
+        adminBadge.textContent = '🔓 Mod: Admin (Boleh Edit)';
+        adminBadge.className = 'chip bg-green-100 text-green-700';
+
+        adminBtn.textContent = '🚪 Log Keluar Admin';
+        adminBtn.onclick = logoutAdmin;
+        adminBtn.className = 'text-xs px-3 py-2 rounded-lg font-medium bg-slate-700 text-white hover:bg-slate-800 transition';
+
+        saveInstructionBtn.classList.remove('hidden');
+        generalInstruction.removeAttribute('readonly');
+
+        formNotice.classList.add('hidden');
+        submitBtn.removeAttribute('disabled');
+        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+        clearDataBtn.classList.remove('hidden');
+        settingsBtn.classList.remove('hidden');
+        actionColHeader.classList.remove('hidden');
+
+        formInputs.forEach(input => input.removeAttribute('disabled'));
+      } else {
+        adminBadge.textContent = '🔒 Mod: Pelawat (Lihat Sahaja)';
+        adminBadge.className = 'chip bg-slate-200 text-slate-700';
+
+        adminBtn.textContent = '🔑 Log Masuk Admin';
+        adminBtn.onclick = openLoginModal;
+        adminBtn.className = 'text-xs px-3 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition';
+
+        saveInstructionBtn.classList.add('hidden');
+        generalInstruction.setAttribute('readonly', 'true');
+
+        formNotice.classList.remove('hidden');
+        submitBtn.setAttribute('disabled', 'true');
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+        clearDataBtn.classList.add('hidden');
+        settingsBtn.classList.add('hidden');
+        actionColHeader.classList.add('hidden');
+
+        formInputs.forEach(input => input.setAttribute('disabled', 'true'));
+      }
+
+      renderTasks();
+      updateChart();
+    }
+
+    function saveGeneralInstruction() {
+      if (!isAdmin) return;
+      const val = document.getElementById('general-instruction').value;
+      localStorage.setItem('general_instruction', val);
+      alert('Arahan penyelia berjaya disimpan!');
+    }
+
+    function addTask(e) {
+      e.preventDefault();
+      if (!isAdmin) return;
+
+      const newTask = {
+        id: Date.now(),
+        name: document.getElementById('tech-name').value,
+        task: document.getElementById('tech-task').value,
+        location: document.getElementById('tech-location').value,
+        datetime: document.getElementById('tech-datetime').value,
+        instructions: document.getElementById('tech-instructions').value,
+        completed: false
+      };
+
+      tasks.push(newTask);
+      saveAndRender();
+      document.getElementById('task-form').reset();
+    }
+
+    function formatDateTime(datetimeStr) {
+      if (!datetimeStr) return '-';
+      const dateObj = new Date(datetimeStr);
+      return dateObj.toLocaleString('ms-MY', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+
+    function toggleTaskStatus(id) {
+      if (!isAdmin) return;
+      tasks = tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
+      saveAndRender();
+    }
+
+    function deleteTask(id) {
+      if (!isAdmin) return;
+      if (confirm('Adakah anda yakin ingin memadam tugasan ini?')) {
+        tasks = tasks.filter(t => t.id !== id);
+        saveAndRender();
+      }
+    }
+
+    function resetAllData() {
+      if (!isAdmin) return;
+      if (confirm('Adakah anda yakin mahu memadam semua data dan menetapkan semula dashboard?')) {
+        localStorage.removeItem('technician_tasks');
+        tasks = [];
+        saveAndRender();
+      }
+    }
+
+    function populateYearFilter() {
+      const yearSelect = document.getElementById('filter-year');
+      const selectedVal = yearSelect.value || 'all';
+
+      const yearsSet = new Set();
+      const currentYear = new Date().getFullYear();
+      yearsSet.add(currentYear);
+
+      tasks.forEach(t => {
+        if (t.datetime) {
+          const y = new Date(t.datetime).getFullYear();
+          if (!isNaN(y)) yearsSet.add(y);
+        }
+      });
+
+      const sortedYears = Array.from(yearsSet).sort((a, b) => b - a);
+      yearSelect.innerHTML = '<option value="all">Semua Tahun</option>';
+      sortedYears.forEach(y => {
+        const option = document.createElement('option');
+        option.value = y.toString();
+        option.textContent = y.toString();
+        yearSelect.appendChild(option);
+      });
+
+      if (sortedYears.includes(Number(selectedVal))) {
+        yearSelect.value = selectedVal;
+      } else {
+        yearSelect.value = 'all';
+      }
+    }
+
+    function getFilteredTasks() {
+      const selectedMonth = document.getElementById('filter-month').value;
+      const selectedYear = document.getElementById('filter-year').value;
+
+      return tasks.filter(task => {
+        if (!task.datetime) return true;
+
+        const taskDate = new Date(task.datetime);
+        const taskMonth = (taskDate.getMonth() + 1).toString();
+        const taskYear = taskDate.getFullYear().toString();
+
+        const matchesMonth = selectedMonth === 'all' || taskMonth === selectedMonth;
+        const matchesYear = selectedYear === 'all' || taskYear === selectedYear;
+
+        return matchesMonth && matchesYear;
+      });
+    }
+
+    function saveAndRender() {
+      localStorage.setItem('technician_tasks', JSON.stringify(tasks));
+      populateYearFilter();
+      renderTasks();
+      updateChart();
+    }
+
+    function renderTasks() {
+      const tbody = document.getElementById('task-list-body');
+      const countLabel = document.getElementById('task-count');
+      const filteredTasks = getFilteredTasks();
+
+      tbody.innerHTML = '';
+      countLabel.textContent = `${filteredTasks.length} Tugasan`;
+
+      const colSpanCount = isAdmin ? 6 : 5;
+
+      if (filteredTasks.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="${colSpanCount}" class="py-8 text-center text-slate-400">Tiada tugasan ditemui.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      filteredTasks.forEach(t => {
+        const row = document.createElement('tr');
+        row.className = t.completed ? 'opacity-50 bg-slate-900' : 'hover:bg-slate-900';
+
+        let actionTd = '';
+        if (isAdmin) {
+          actionTd = `
+            <td class="py-3 px-2 text-right space-x-1">
+              <button onclick="toggleTaskStatus(${t.id})" class="text-xs px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 transition">${t.completed ? 'Batal' : 'Selesai'}</button>
+              <button onclick="deleteTask(${t.id})" class="text-xs px-2 py-1 rounded bg-red-900 text-red-200 hover:bg-red-800 transition">Padam</button>
+            </td>
+          `;
+        }
+
+        row.innerHTML = `
+          <td class="py-3 px-2 font-semibold text-white">${t.name}</td>
+          <td class="py-3 px-2">
+            <div class="font-medium ${t.completed ? 'line-through text-slate-400' : 'text-slate-200'}">${t.task}</div>
+            <div class="text-xs text-slate-400 mt-0.5">${t.instructions ? '💬 ' + t.instructions : '-'}</div>
+          </td>
+          <td class="py-3 px-2 text-slate-300 font-medium">${t.location || '-'}</td>
+          <td class="py-3 px-2 text-xs text-slate-400">${formatDateTime(t.datetime)}</td>
+          <td class="py-3 px-2">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${t.completed ? 'status-done' : 'status-progress'}">${t.completed ? 'Selesai' : 'Dalam Tindakan'}</span>
+          </td>
+          ${actionTd}
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function updateChart() {
+      if (typeof Chart === 'undefined') return;
+
+      const ctx = document.getElementById('techChart').getContext('2d');
+      const filteredTasks = getFilteredTasks();
+      const taskCounts = settings.technicianList.map(techName =>
+        filteredTasks.filter(task => task.name === techName).length
+      );
+
+      if (techChartInstance) {
+        techChartInstance.destroy();
+      }
+
+      techChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: settings.technicianList,
+          datasets: [{
+            label: 'Jumlah Tugasan',
+            data: taskCounts,
+            backgroundColor: [
+              'rgba(59, 130, 246, 0.7)',
+              'rgba(16, 185, 129, 0.7)',
+              'rgba(245, 158, 11, 0.7)',
+              'rgba(139, 92, 246, 0.7)',
+              'rgba(236, 72, 153, 0.7)'
+            ],
+            borderColor: [
+              'rgb(59, 130, 246)',
+              'rgb(16, 185, 129)',
+              'rgb(245, 158, 11)',
+              'rgb(139, 92, 246)',
+              'rgb(236, 72, 153)'
+            ],
+            borderWidth: 1,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 }
+            }
+          }
+        }
+      });
+    }
+
+    function openSettingsModal() {
+      if (!isAdmin) return;
+      document.getElementById('settings-title').value = settings.title;
+      document.getElementById('settings-subtitle').value = settings.subtitle;
+      document.getElementById('settings-pin').value = settings.pin;
+      document.getElementById('settings-tech-list').value = settings.technicianList.join('\n');
+      document.getElementById('settings-modal').classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settings-modal').classList.add('hidden');
+    }
+
+    function saveSettings() {
+      if (!isAdmin) return;
+
+      const title = document.getElementById('settings-title').value.trim() || DEFAULT_SETTINGS.title;
+      const subtitle = document.getElementById('settings-subtitle').value.trim() || DEFAULT_SETTINGS.subtitle;
+      const pin = document.getElementById('settings-pin').value.trim() || DEFAULT_SETTINGS.pin;
+      const technicianList = document.getElementById('settings-tech-list').value
+        .split('\n')
+        .map(v => v.trim())
+        .filter(Boolean);
+
+      settings = {
+        title,
+        subtitle,
+        pin,
+        technicianList: technicianList.length ? technicianList : DEFAULT_SETTINGS.technicianList
+      };
+
+      localStorage.setItem('dashboard_jtk_settings', JSON.stringify(settings));
+      renderDashboardMeta();
+      applyAdminPermissions();
+      closeSettingsModal();
+      alert('Tetapan dashboard berjaya disimpan!');
+    }
+
+    normalizeSettings();
+    renderDashboardMeta();
+    populateYearFilter();
+    applyAdminPermissions();
+  </script>
 </body>
 </html>
